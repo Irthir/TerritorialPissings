@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{D746227F-4C5A-F813-5E26-9685774D4E68}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "TerritorialPissings",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

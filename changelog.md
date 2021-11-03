@@ -9,6 +9,7 @@
 ### Ajout
 -Compilation du moteur Unreal Engine version 4.27
 -Mise en place d'un test sur le projet pour la compilation serveur/client.
+-Mise en place du modèle et de l'animation idle du chien.
 
 # [0.0.1] - 2021-11-02
 

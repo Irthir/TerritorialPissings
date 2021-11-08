@@ -1,3 +1,13 @@
+# [0.0.3] - 2021-11-08
+
+## Romain Schlotter
+### Ajout
+-Révision de la mise en place du serveur.
+-Création de la physique de la corde.
+-Mise en place des animation de courses et de saut du chien.
+-Création d'un pawn par défaut du promeneur.
+-Liaison des pawns à la corde.
+
 # [0.0.2] - 2021-11-03
 
 ## Gaëtan Piou

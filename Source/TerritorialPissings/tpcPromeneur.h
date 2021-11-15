@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TerritorialPissingsCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "tpcPromeneur.generated.h"
 
 /**
@@ -15,6 +16,8 @@ class TERRITORIALPISSINGS_API AtpcPromeneur : public ATerritorialPissingsCharact
 	GENERATED_BODY()
 
 protected:
+
+	bool bSprint = false;
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
@@ -30,5 +33,5 @@ protected:
 	void BeginPlay();
 
 private:
-	//ACharacter cChien;
+	AActor* aChien;
 };

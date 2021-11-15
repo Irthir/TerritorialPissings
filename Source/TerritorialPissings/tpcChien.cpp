@@ -2,13 +2,14 @@
 
 
 #include "tpcChien.h"
+#include "tpcPromeneuse.h"
 
 
 void AtpcChien::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Screen Message"));
+	aPromeneur = UGameplayStatics::GetActorOfClass(GetWorld(), AtpcPromeneuse::StaticClass());
 }
 
 void AtpcChien::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -48,7 +49,21 @@ void AtpcChien::MoveForward(float Value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+
+		if (!IsValid(aPromeneur))
+			return;
+
+		const FVector vLocation = this->GetActorLocation();
+		const FVector vCible = aPromeneur->GetActorLocation();
+		const FVector vResult = (vLocation + (Direction*Value));
+
+		float fDistance = FVector::Distance(vLocation, vCible);
+		float fResult = FVector::Distance(vResult, vCible);
+
+		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		{
+			AddMovementInput(Direction, Value);
+		}
 	}
 }
 
@@ -63,6 +78,23 @@ void AtpcChien::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
+
+		if (!IsValid(aPromeneur))
+			return;
+
+		const FVector vLocation = this->GetActorLocation();
+		const FVector vCible = aPromeneur->GetActorLocation();
+		const FVector vResult = (vLocation + (Direction * Value));
+
+		float fDistance = FVector::Distance(vLocation, vCible);
+		float fResult = FVector::Distance(vResult, vCible);
+
 		AddMovementInput(Direction, Value);
+
+		//Gestion de l'éloignement avec la laisse.
+		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		{
+			AddMovementInput(Direction, Value);
+		}
 	}
 }

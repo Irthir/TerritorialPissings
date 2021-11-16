@@ -19,6 +19,8 @@ void AtpcChien::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AtpcChien::Sprint);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AtpcChien::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AtpcChien::MoveRight);
 
@@ -51,7 +53,10 @@ void AtpcChien::MoveForward(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
 		if (!IsValid(aPromeneur))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Promeneur invalide"));
 			return;
+		}
 
 		const FVector vLocation = this->GetActorLocation();
 		const FVector vCible = aPromeneur->GetActorLocation();
@@ -62,7 +67,13 @@ void AtpcChien::MoveForward(float Value)
 
 		if (fResult <= 1000 || fResult < fDistance || bSprint)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
 			AddMovementInput(Direction, Value);
+		}
+		else
+		{
+
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("MouvementImpossible"));
 		}
 	}
 }
@@ -80,7 +91,10 @@ void AtpcChien::MoveRight(float Value)
 		// add movement in that direction
 
 		if (!IsValid(aPromeneur))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Promeneur invalide"));
 			return;
+		}
 
 		const FVector vLocation = this->GetActorLocation();
 		const FVector vCible = aPromeneur->GetActorLocation();
@@ -89,12 +103,29 @@ void AtpcChien::MoveRight(float Value)
 		float fDistance = FVector::Distance(vLocation, vCible);
 		float fResult = FVector::Distance(vResult, vCible);
 
-		AddMovementInput(Direction, Value);
-
 		//Gestion de l'éloignement avec la laisse.
 		if (fResult <= 1000 || fResult < fDistance || bSprint)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
 			AddMovementInput(Direction, Value);
 		}
 	}
+}
+
+
+void AtpcChien::Sprint()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
+	bSprint = true;
+	
+	FTimerHandle UniqueHandle;
+	FTimerDelegate SprintDelegate = FTimerDelegate::CreateUObject(this, &AtpcChien::StopSprint);
+	GetWorldTimerManager().SetTimer(UniqueHandle, SprintDelegate, 1.f, false);
+}
+
+
+void AtpcChien::StopSprint()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
+	bSprint = false;
 }

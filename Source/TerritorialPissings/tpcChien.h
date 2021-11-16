@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "TerritorialPissingsCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/EngineTypes.h"
 #include "tpcChien.generated.h"
 
 /**
@@ -23,8 +24,12 @@ protected :
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+	void Sprint();
+	void StopSprint();
+
 protected:
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Sprint, meta = (AllowPrivateAccess = "true"))
 	bool bSprint = false;
 
 	// APawn interface

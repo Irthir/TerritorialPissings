@@ -4,11 +4,24 @@
 #include "tpcPromeneuse.h"
 #include "tpcChien.h"
 
+
+AtpcPromeneuse::AtpcPromeneuse()
+{
+	// Create a camera boom (pulls in towards the player if there is a collision)
+	cable = CreateDefaultSubobject<UCableComponent>(TEXT("Cable"));
+	cable->SetupAttachment(RootComponent);
+}
+
 void AtpcPromeneuse::BeginPlay()
 {
 	Super::BeginPlay();
 
 	aChien = UGameplayStatics::GetActorOfClass(GetWorld(), AtpcChien::StaticClass());
+}
+
+void AtpcPromeneuse::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 void AtpcPromeneuse::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -17,6 +30,8 @@ void AtpcPromeneuse::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AtpcPromeneuse::Sprint);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AtpcPromeneuse::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AtpcPromeneuse::MoveRight);
@@ -28,6 +43,7 @@ void AtpcPromeneuse::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAxis("TurnRate", this, &AtpcPromeneuse::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AtpcPromeneuse::LookUpAtRate);
+
 
 	// handle touch devices
 	//PlayerInputComponent->BindTouch(IE_Pressed, this, &AtpcPromeneuse::TouchStarted);
@@ -88,12 +104,27 @@ void AtpcPromeneuse::MoveRight(float Value)
 		float fDistance = FVector::Distance(vLocation, vCible);
 		float fResult = FVector::Distance(vResult, vCible);
 
-		AddMovementInput(Direction, Value);
-
 		//Gestion de l'éloignement avec la laisse.
 		if (fResult <= 1000 || fResult < fDistance || bSprint)
 		{
 			AddMovementInput(Direction, Value);
 		}
 	}
+}
+
+void AtpcPromeneuse::Sprint()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
+	bSprint = true;
+
+	FTimerHandle UniqueHandle;
+	FTimerDelegate SprintDelegate = FTimerDelegate::CreateUObject(this, &AtpcPromeneuse::StopSprint);
+	GetWorldTimerManager().SetTimer(UniqueHandle, SprintDelegate, 1.f, false);
+}
+
+
+void AtpcPromeneuse::StopSprint()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
+	bSprint = false;
 }

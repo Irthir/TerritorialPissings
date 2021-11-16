@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TerritorialPissingsCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "tpcChien.generated.h"
 
 /**
@@ -23,6 +24,9 @@ protected :
 	void MoveRight(float Value);
 
 protected:
+
+	bool bSprint = false;
+
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
@@ -30,6 +34,6 @@ protected:
 	void BeginPlay();
 
 private:
-	//ACharacter cPromeneur;
+	AActor* aPromeneur;
 	
 };

@@ -2,14 +2,15 @@
 
 
 #include "tpcPromeneur.h"
+#include "tpcChien.h"
 
 void AtpcPromeneur::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//aChien = getActorOfClass();
+	aChien = UGameplayStatics::GetActorOfClass(GetWorld(), AtpcChien::StaticClass());
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Screen Message"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, aChien->GetName());
 }
 
 void AtpcPromeneur::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -41,7 +42,7 @@ void AtpcPromeneur::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 void AtpcPromeneur::MoveForward(float Value)
 {
-	if ((Controller != nullptr) && (Value != 0.0f))
+	if ((Controller != nullptr) && (Value > 0.0f))
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -49,7 +50,18 @@ void AtpcPromeneur::MoveForward(float Value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+
+		const FVector vLocation = this->GetActorLocation();
+		const FVector vCible = aChien->GetActorLocation();
+		const FVector vResult = (vLocation + (Direction * Value));
+
+		float fDistance = FVector::Distance(vLocation, vCible);
+		float fResult = FVector::Distance(vResult, vCible);
+
+		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		{
+			AddMovementInput(Direction, Value);
+		}
 	}
 }
 
@@ -64,6 +76,19 @@ void AtpcPromeneur::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, Value);
+
+
+		const FVector vLocation = this->GetActorLocation();
+		const FVector vCible = aChien->GetActorLocation();
+		const FVector vResult = (vLocation + (Direction * Value));
+
+		float fDistance = FVector::Distance(vLocation, vCible);
+		float fResult = FVector::Distance(vResult, vCible);
+
+		//Gestion de l'éloignement avec la laisse.
+		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		{
+			AddMovementInput(Direction, Value);
+		}
 	}
 }

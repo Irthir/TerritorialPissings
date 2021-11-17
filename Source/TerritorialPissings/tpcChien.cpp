@@ -67,13 +67,13 @@ void AtpcChien::MoveForward(float Value)
 
 		if (fResult <= 1000 || fResult < fDistance || bSprint)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
 			AddMovementInput(Direction, Value);
 		}
 		else
 		{
 
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("MouvementImpossible"));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("MouvementImpossible"));
 		}
 	}
 }
@@ -106,7 +106,7 @@ void AtpcChien::MoveRight(float Value)
 		//Gestion de l'éloignement avec la laisse.
 		if (fResult <= 1000 || fResult < fDistance || bSprint)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
 			AddMovementInput(Direction, Value);
 		}
 	}
@@ -115,7 +115,7 @@ void AtpcChien::MoveRight(float Value)
 
 void AtpcChien::Sprint()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
 	bSprint = true;
 	
 	FTimerHandle UniqueHandle;
@@ -126,6 +126,6 @@ void AtpcChien::Sprint()
 
 void AtpcChien::StopSprint()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
 	bSprint = false;
 }

@@ -114,7 +114,7 @@ void AtpcPromeneuse::MoveRight(float Value)
 
 void AtpcPromeneuse::Sprint()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
 	bSprint = true;
 
 	FTimerHandle UniqueHandle;
@@ -125,6 +125,6 @@ void AtpcPromeneuse::Sprint()
 
 void AtpcPromeneuse::StopSprint()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
 	bSprint = false;
 }

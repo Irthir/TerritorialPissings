@@ -1,4 +1,23 @@
+# [0.0.6] - 2021-11-16
+## Romain Schlotter
+### Ajout
+-Gestion de l'éloignement des pawns avec la laisse.
+-Gestion de la physique des pawns.
+-Gestion de la traction des joueurs avec la laisse.
+-Mise en place et gestion du sprint.
+
+# [0.0.5] - 2021-11-15
+## Romain Schlotter
+### Ajout
+-Conception et création du pawn Promeneur
+-Mise en place du cable
+-Liaison des pawns
+-Mise en place du cable component
+
 # [0.0.4] - 2021-11-11
+## Romain Schlotter
+### Ajout
+-Conception et création du pawn Chien
 
 # [0.0.3] - 2021-11-08
 

@@ -75,7 +75,7 @@ void AtpcPromeneuse::MoveForward(float Value)
 		float fDistance = FVector::Distance(vLocation, vCible);
 		float fResult = FVector::Distance(vResult, vCible);
 
-		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		if (fResult <= 1200 || fResult < fDistance || bSprint)
 		{
 			AddMovementInput(Direction, Value);
 		}
@@ -105,7 +105,7 @@ void AtpcPromeneuse::MoveRight(float Value)
 		float fResult = FVector::Distance(vResult, vCible);
 
 		//Gestion de l'éloignement avec la laisse.
-		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		if (fResult <= 1200 || fResult < fDistance || bSprint)
 		{
 			AddMovementInput(Direction, Value);
 		}
@@ -114,7 +114,7 @@ void AtpcPromeneuse::MoveRight(float Value)
 
 void AtpcPromeneuse::Sprint()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
 	bSprint = true;
 
 	FTimerHandle UniqueHandle;
@@ -125,6 +125,6 @@ void AtpcPromeneuse::Sprint()
 
 void AtpcPromeneuse::StopSprint()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
 	bSprint = false;
 }

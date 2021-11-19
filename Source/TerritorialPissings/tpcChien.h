@@ -33,7 +33,7 @@ protected :
 	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Sprint")
 		void ServerStopSprint();
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = Sprint, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = Sprint, meta = (AllowPrivateAccess = "false"))
 	bool bSprint = false;
 
 	// APawn interface

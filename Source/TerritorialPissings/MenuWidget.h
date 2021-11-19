@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "MenuWidget.generated.h"
 
 /**
@@ -15,10 +16,13 @@ class TERRITORIALPISSINGS_API UMenuWidget : public UUserWidget
 	GENERATED_BODY()
 
 protected :
-	UFUNCTION(BlueprintCallable, Category = Server, Exec)
-	void Join(FString sIP);
+	/*UFUNCTION(BlueprintCallable, Category = Server, Exec)
+	void Join(FString sIP);*/
+
+	/*UFUNCTION(BlueprintCallable, Category = Server, Exec)
+	void Host(FString sIP);*/
 
 	UFUNCTION(BlueprintCallable, Category = Server, Exec)
-	void Host();
+	void Commande(FString sCommande);
 	
 };

@@ -4,10 +4,10 @@
 #include "tpcChien.h"
 #include "tpcPromeneuse.h"
 
-
 void AtpcChien::BeginPlay()
 {
 	Super::BeginPlay();
+	bReplicates = true;
 
 	aPromeneur = UGameplayStatics::GetActorOfClass(GetWorld(), AtpcPromeneuse::StaticClass());
 }
@@ -65,15 +65,15 @@ void AtpcChien::MoveForward(float Value)
 		float fDistance = FVector::Distance(vLocation, vCible);
 		float fResult = FVector::Distance(vResult, vCible);
 
-		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		if (fResult <= 1200 || fResult < fDistance || bSprint)
 		{
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
 			AddMovementInput(Direction, Value);
 		}
 		else
 		{
 
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("MouvementImpossible"));
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("MouvementImpossible"));
 		}
 	}
 }
@@ -104,7 +104,7 @@ void AtpcChien::MoveRight(float Value)
 		float fResult = FVector::Distance(vResult, vCible);
 
 		//Gestion de l'éloignement avec la laisse.
-		if (fResult <= 1000 || fResult < fDistance || bSprint)
+		if (fResult <= 1200 || fResult < fDistance || bSprint)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Mouvement"));
 			AddMovementInput(Direction, Value);
@@ -115,9 +115,14 @@ void AtpcChien::MoveRight(float Value)
 
 void AtpcChien::Sprint()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
+	ServerSprint();
+}
+
+void AtpcChien::ServerSprint_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Sprint"));
 	bSprint = true;
-	
+
 	FTimerHandle UniqueHandle;
 	FTimerDelegate SprintDelegate = FTimerDelegate::CreateUObject(this, &AtpcChien::StopSprint);
 	GetWorldTimerManager().SetTimer(UniqueHandle, SprintDelegate, 1.f, false);
@@ -126,6 +131,18 @@ void AtpcChien::Sprint()
 
 void AtpcChien::StopSprint()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
+	ServerStopSprint();
+}
+
+void AtpcChien::ServerStopSprint_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("StopSprint"));
 	bSprint = false;
+}
+
+
+void AtpcChien::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AtpcChien, bSprint);
 }

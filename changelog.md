@@ -1,3 +1,11 @@
+# [0.0.8] - 2021-11-19
+## Romain Schlotter
+### Ajout
+-Ajout de la musique dans la scène principale
+-Correction du code du chien
+-Création du menu de fin
+-Débogage
+
 # [0.0.6] - 2021-11-16
 ## Romain Schlotter
 ### Ajout
@@ -20,7 +28,6 @@
 -Conception et création du pawn Chien
 
 # [0.0.3] - 2021-11-08
-
 ## Romain Schlotter
 ### Ajout
 -Révision de la mise en place du serveur.

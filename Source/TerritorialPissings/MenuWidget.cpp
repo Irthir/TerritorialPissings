@@ -4,18 +4,17 @@
 #include "MenuWidget.h"
 
 
-void UMenuWidget::Join(FString sIP)
+/*void UMenuWidget::Join(FString sIP)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, sIP);
-}
+}*/
 
-void UMenuWidget::Host()
+/*void UMenuWidget::Host(FString sIP)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Host"));
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, sIP);
+}*/
 
-	FString sCommande = "open MainLevel?listen";
-
-	GetWorld()->Exec(GetWorld(), *sCommande);
-
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, *sCommande);
+void UMenuWidget::Commande(FString sCommande)
+{
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->ConsoleCommand(*sCommande);
 }

@@ -6,6 +6,7 @@
 #include "TerritorialPissingsCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/EngineTypes.h"
+#include "Net/UnrealNetwork.h"
 #include "tpcChien.generated.h"
 
 /**
@@ -16,6 +17,7 @@ class TERRITORIALPISSINGS_API AtpcChien : public ATerritorialPissingsCharacter
 {
 	GENERATED_BODY()
 
+
 protected :
 
 	/** Called for forwards/backward input */
@@ -25,11 +27,13 @@ protected :
 	void MoveRight(float Value);
 
 	void Sprint();
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Sprint")
+		void ServerSprint();
 	void StopSprint();
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Sprint")
+		void ServerStopSprint();
 
-protected:
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Sprint, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = Sprint, meta = (AllowPrivateAccess = "true"))
 	bool bSprint = false;
 
 	// APawn interface
@@ -37,6 +41,8 @@ protected:
 	// End of APawn interface
 
 	void BeginPlay();
+
+	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const;
 
 private:
 	AActor* aPromeneur;
